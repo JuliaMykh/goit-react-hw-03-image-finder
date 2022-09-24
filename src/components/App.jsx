@@ -37,6 +37,7 @@ export class App extends Component {
             smallImage: hit.webformatURL,
             largeImage: hit.largeImageURL,
           }));
+          console.log(imagesArray);
 
           // запис змін в стейт
           return this.setState({
