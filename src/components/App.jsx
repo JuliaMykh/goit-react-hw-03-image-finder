@@ -29,7 +29,7 @@ export class App extends Component {
       this.setState(({ isLoading }) => ({ isLoading: !isLoading }));
 
     //   this.setState({
-    //   query: '',
+    //   query:'',
     //   page: 1,
     //   images: null,
     // });
@@ -45,7 +45,7 @@ export class App extends Component {
             smallImage: hit.webformatURL,
             largeImage: hit.largeImageURL,
           }));
-          // console.log(imagesArray);
+          console.log(imagesArray);
 
           // запис змін в стейт
           return this.setState({
@@ -69,12 +69,15 @@ export class App extends Component {
 
       fetchImages(query, page)
         .then(({ hits }) => {
+         
           const imagesArray = hits.map(hit => ({
             id: hit.id,
             description: hit.tags,
             smallImage: hit.webformatURL,
             largeImage: hit.largeImageURL,
           }));
+
+        
          
           // зміна стейту
           return this.setState(({ images, imagesOnPage }) => {
@@ -93,8 +96,9 @@ export class App extends Component {
     }
   }
 
-  //пощук запиту при сабміті 
+  //зміна квері в стейті при сабміті 
   getQuery = query => {
+    // console.log(query);
     this.setState({ query });
   };
 
