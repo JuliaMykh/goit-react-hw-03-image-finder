@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik } from "formik";
 import {
   SearchBar,
   SearchForm,
@@ -16,26 +16,26 @@ export const Searchbar = ({onSubmit}) => {
         resetForm();
     };
 
-    return(
-        <Formik
-            initialValues={{ name: ''}}
-            onSubmit={handleSubmit}>
-<SearchBar>
-  <SearchForm >
-    <SearchFormBtn type="submit" >
-      <SearchFormSpan >Search</SearchFormSpan>
-    </SearchFormBtn>
-
-    <SearchFormInput
-      type="text"
-      name="name"
-    //   autoComplete="off"
-    //   autoFocus
-      placeholder="Search images and photos"
-    />
-  </SearchForm>
-    </SearchBar>
-</Formik >
+  return (
+    <Formik
+      initialValues={{ name: '' }}
+      onSubmit={handleSubmit}>
+      <SearchBar>
+        <SearchForm>
+            <SearchFormBtn type="submit" >
+              <SearchFormSpan >Search</SearchFormSpan>
+            </SearchFormBtn>
+           
+              <SearchFormInput
+                type="text"
+                name="name"
+                //   autoComplete="off"
+                //   autoFocus
+                placeholder="Search images and photos"
+              />
+          </SearchForm>
+      </SearchBar>
+    </Formik >
     
-    );
+  );
 };

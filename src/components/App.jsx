@@ -103,15 +103,20 @@ export class App extends Component {
     this.setState(({ page }) => ({ page: page + 1 }));
   };
 
-   // відкриття модалки і відображення поточного зображення ----- не працює!!!!
+  //  кнопка модалки
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({ showModal: !showModal }));
+  };
+
+
+   // відкриття модалки і відображення поточного зображення 
   openModal = e => {
     const currentImageUrl = e.target.dataset.large;
-   
     const currentImageDescription = e.target.alt;
 
     if (e.target.nodeName === 'IMG') {
       // console.log(e.target.nodeName);
-      this.setState(({ showModal }) => ({
+      this.setState(({ showModal, }) => ({
         showModal: !showModal,
         currentImageUrl: currentImageUrl,
         currentImageDescription: currentImageDescription,
@@ -125,6 +130,9 @@ export class App extends Component {
       imagesOnPage,
       totalImages,
       isLoading,
+      showModal,
+      currentImageUrl,
+      currentImageDescription,
     } = this.state;
 
     const onNextFetch = this.onNextFetch;
@@ -141,10 +149,11 @@ export class App extends Component {
           <Button onNextFetch={onNextFetch} />
         )}
 
-         {this.showModal && (
+         {showModal && (
           <Modal
-            currentImageUrl={this.currentImageUrl}
-            currentImageDescription={this.currentImageDescription}
+            currentImageUrl={currentImageUrl}
+            currentImageDescription={currentImageDescription}
+            onClose={this.toggleModal}
           />
         )}
 
