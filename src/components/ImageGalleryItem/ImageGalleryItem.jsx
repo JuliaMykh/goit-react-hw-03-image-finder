@@ -1,9 +1,10 @@
 import React from "react";
+import { ImageGalleryLi, ImageGalleryItemImg } from './ImageGalleryItem.styled';
 
-export const ImageGalleryItem = ({ description, smallImage, largeImage}) => {
+export const ImageGalleryItem = ({ description, smallImage, largeImage, openModal }) => {
     return (
-        <li >
-            <img src={smallImage} alt={description} data-large={largeImage} />
-        </li>
+        <ImageGalleryLi onClick={openModal}>
+            <ImageGalleryItemImg src={smallImage} alt={description} data-large={largeImage} />
+        </ImageGalleryLi>
     )
 };

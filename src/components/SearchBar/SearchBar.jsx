@@ -1,5 +1,12 @@
 import React from "react";
-import { Formik, Form, Field  } from "formik";
+import { Formik, Form, Field } from "formik";
+import {
+  SearchBar,
+  SearchForm,
+  SearchFormBtn,
+  SearchFormSpan,
+  SearchFormInput
+} from './SearchBar.styled';
 
 export const Searchbar = ({onSubmit}) => {
     
@@ -13,21 +20,21 @@ export const Searchbar = ({onSubmit}) => {
         <Formik
             initialValues={{ name: ''}}
             onSubmit={handleSubmit}>
-<header>
-  <Form >
-    <button type="submit" >
-      <span >Search</span>
-    </button>
+<SearchBar>
+  <SearchForm >
+    <SearchFormBtn type="submit" >
+      <SearchFormSpan >Search</SearchFormSpan>
+    </SearchFormBtn>
 
-    <Field
+    <SearchFormInput
       type="text"
       name="name"
     //   autoComplete="off"
     //   autoFocus
       placeholder="Search images and photos"
     />
-  </Form>
-    </header>
+  </SearchForm>
+    </SearchBar>
 </Formik >
     
     );

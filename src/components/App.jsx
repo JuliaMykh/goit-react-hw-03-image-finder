@@ -3,7 +3,8 @@ import { Searchbar } from './SearchBar/SearchBar';
 import { fetchImages } from '../services/api';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
-// import { Modal } from './Modal/Modal';
+import { Modal } from './Modal/Modal';
+import { AppDiv } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -16,6 +17,7 @@ export class App extends Component {
     error: null,
     currentImageUrl: null,
     currentImageDescription: null,
+    showModal: false,
   };
 
   componentDidUpdate(_, prevState) {
@@ -26,7 +28,13 @@ export class App extends Component {
     // лоадинг - тру
       this.setState(({ isLoading }) => ({ isLoading: !isLoading }));
 
-    // запуск фетч
+    //   this.setState({
+    //   query: '',
+    //   page: 1,
+    //   images: null,
+    // });
+
+    // запуск фетч --- !!!! не працює
       fetchImages(query)
         .then(({ hits, totalHits }) => {
           // створення масиву зображень
@@ -37,7 +45,7 @@ export class App extends Component {
             smallImage: hit.webformatURL,
             largeImage: hit.largeImageURL,
           }));
-          console.log(imagesArray);
+          // console.log(imagesArray);
 
           // запис змін в стейт
           return this.setState({
@@ -54,7 +62,7 @@ export class App extends Component {
         );
     }
 
-    // якщо сторінка 2 і більше
+    // якщо підгрузити сторінки 2 і більше 
     if (prevState.page !== page && page !== 1) {
       // лоадінг - тру
       this.setState(({ isLoading }) => ({ isLoading: !isLoading }));
@@ -67,7 +75,7 @@ export class App extends Component {
             smallImage: hit.webformatURL,
             largeImage: hit.largeImageURL,
           }));
-
+         
           // зміна стейту
           return this.setState(({ images, imagesOnPage }) => {
             return {
@@ -95,6 +103,22 @@ export class App extends Component {
     this.setState(({ page }) => ({ page: page + 1 }));
   };
 
+   // відкриття модалки і відображення поточного зображення ----- не працює!!!!
+  openModal = e => {
+    const currentImageUrl = e.target.dataset.large;
+   
+    const currentImageDescription = e.target.alt;
+
+    if (e.target.nodeName === 'IMG') {
+      // console.log(e.target.nodeName);
+      this.setState(({ showModal }) => ({
+        showModal: !showModal,
+        currentImageUrl: currentImageUrl,
+        currentImageDescription: currentImageDescription,
+      }));
+    }
+  };
+
   render() {
     const {
       images,
@@ -106,10 +130,10 @@ export class App extends Component {
     const onNextFetch = this.onNextFetch;
   
     return (
-      <>
+      <AppDiv>
         <Searchbar onSubmit={this.getQuery} />
 
-        {images && <ImageGallery images={images} />}
+        {images && <ImageGallery images={images} openModal={this.openModal} />}
 
         {isLoading && <p>Loading</p>}
 
@@ -117,7 +141,14 @@ export class App extends Component {
           <Button onNextFetch={onNextFetch} />
         )}
 
-      </>
+         {this.showModal && (
+          <Modal
+            currentImageUrl={this.currentImageUrl}
+            currentImageDescription={this.currentImageDescription}
+          />
+        )}
+
+      </AppDiv>
     );
   }
 }

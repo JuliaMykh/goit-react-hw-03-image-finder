@@ -1,9 +1,10 @@
-
+import React from "react";
+import { BtnLoadMore } from './Button.styled';
 
 export const Button = ({ onNextFetch }) => {
   return (
-    <button type="button" onClick={onNextFetch}>
+    <BtnLoadMore type="button" onClick={onNextFetch}>
       Load more 
-    </button>
+    </BtnLoadMore>
   );
 }
