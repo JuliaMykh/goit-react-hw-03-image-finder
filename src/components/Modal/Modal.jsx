@@ -53,8 +53,7 @@ export class Modal extends Component {
 };
 
 Modal.propTypes = {
-    title: PropTypes.string,
     onClose: PropTypes.func.isRequired,
-    currentImageUrl: PropTypes.string,
-    currentImageDescription: PropTypes.string,
+    currentImageUrl: PropTypes.string.isRequired,
+    currentImageDescription: PropTypes.string.isRequired,
 }

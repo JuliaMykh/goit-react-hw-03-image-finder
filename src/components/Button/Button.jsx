@@ -1,5 +1,6 @@
 import React from "react";
 import { BtnLoadMore } from './Button.styled';
+import PropTypes from "prop-types";
 
 export const Button = ({ onNextFetch }) => {
   return (
@@ -8,3 +9,7 @@ export const Button = ({ onNextFetch }) => {
     </BtnLoadMore>
   );
 }
+
+Button.propTypes = {
+  onNextFetch: PropTypes.func.isRequired,
+};

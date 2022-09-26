@@ -5,6 +5,8 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Modal } from './Modal/Modal';
 import { AppDiv } from './App.styled';
+import { Loader } from './Loader/Loader';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 export class App extends Component {
   state = {
@@ -23,20 +25,30 @@ export class App extends Component {
   componentDidUpdate(_, prevState) {
     const { query, page } = this.state;
 
+    Notify.init({
+      width: '320px',
+      position: 'center-top',
+      distance: '70px',
+      clickToClose: true,
+      cssAnimationStyle: 'from-top',
+      cssAnimationDuration: 800,
+    });
+
     // перший запит 
     if (prevState.query !== query) {
     // лоадинг - тру
       this.setState(({ isLoading }) => ({ isLoading: !isLoading }));
-
-    //   this.setState({
-    //   query:'',
-    //   page: 1,
-    //   images: null,
-    // });
-
-    // запуск фетч --- !!!! не працює
+    // запуск фетч 
       fetchImages(query)
         .then(({ hits, totalHits }) => {
+          if (hits.length === 0) {
+            this.setState({
+              query: '',
+              page: 1,
+              images: null,
+            });
+            return  Notify.failure('Sorry, no images found :( Try something else!');
+          }
           // створення масиву зображень
           const imagesArray = hits.map(hit => ({
             // приймаються властивості кожного зображення 
@@ -45,8 +57,7 @@ export class App extends Component {
             smallImage: hit.webformatURL,
             largeImage: hit.largeImageURL,
           }));
-          console.log(imagesArray);
-
+          // console.log(imagesArray);
           // запис змін в стейт
           return this.setState({
             page: 1,
@@ -69,16 +80,12 @@ export class App extends Component {
 
       fetchImages(query, page)
         .then(({ hits }) => {
-         
           const imagesArray = hits.map(hit => ({
             id: hit.id,
             description: hit.tags,
             smallImage: hit.webformatURL,
             largeImage: hit.largeImageURL,
           }));
-
-        
-         
           // зміна стейту
           return this.setState(({ images, imagesOnPage }) => {
             return {
@@ -111,7 +118,6 @@ export class App extends Component {
   toggleModal = () => {
     this.setState(({ showModal }) => ({ showModal: !showModal }));
   };
-
 
    // відкриття модалки і відображення поточного зображення 
   openModal = e => {
@@ -147,7 +153,7 @@ export class App extends Component {
 
         {images && <ImageGallery images={images} openModal={this.openModal} />}
 
-        {isLoading && <p>Loading</p>}
+        {isLoading && <Loader />}
 
         {imagesOnPage >= 12 && imagesOnPage < totalImages && (
           <Button onNextFetch={onNextFetch} />
