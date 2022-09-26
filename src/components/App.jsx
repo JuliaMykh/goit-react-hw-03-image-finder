@@ -15,7 +15,7 @@ export class App extends Component {
     imagesOnPage: 0,
     totalImages: 0,
     isLoading: false,
-    images: null,
+    images: [],
     error: null,
     currentImageUrl: null,
     currentImageDescription: null,
@@ -42,11 +42,11 @@ export class App extends Component {
       fetchImages(query)
         .then(({ hits, totalHits }) => {
           if (hits.length === 0) {
-            this.setState({
-              query: '',
-              page: 1,
-              images: null,
-            });
+            // this.setState({
+            //   query: '',
+            //   page: 1,
+            //   images: null,
+            // });
             return  Notify.failure('Sorry, no images found :( Try something else!');
           }
           // створення масиву зображень
@@ -104,12 +104,21 @@ export class App extends Component {
   }
 
   //зміна квері в стейті при сабміті 
-  getQuery = query => {
-    // console.log(query);
-    this.setState({ query });
-  };
+  getQuery = (inputQuery) => {
+    if (inputQuery !== this.state.query) {
+    this.setState({
+              query: inputQuery,
+              page: 1,
+              images: [],
+            });
+    } else {
+      this.setState({
+        query: inputQuery,
+      });
+  }
+}
 
-  // збільшення сторінки
+  // додаткове завантаження
   onNextFetch = () => {
     this.setState(({ page }) => ({ page: page + 1 }));
   };
@@ -155,7 +164,7 @@ export class App extends Component {
 
         {isLoading && <Loader />}
 
-        {imagesOnPage >= 12 && imagesOnPage < totalImages && (
+        {images.length === 0 ? '' : (
           <Button onNextFetch={onNextFetch} />
         )}
 
