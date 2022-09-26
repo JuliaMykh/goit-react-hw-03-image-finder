@@ -146,8 +146,6 @@ export class App extends Component {
   render() {
     const {
       images,
-      imagesOnPage,
-      totalImages,
       isLoading,
       showModal,
       currentImageUrl,
