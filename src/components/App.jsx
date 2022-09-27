@@ -103,7 +103,7 @@ export class App extends Component {
     }
   }
 
-  //зміна квері в стейті при сабміті 
+  // зміна квері в стейті при сабміті
   getQuery = (inputQuery) => {
     if (inputQuery !== this.state.query) {
     this.setState({
@@ -111,13 +111,9 @@ export class App extends Component {
               page: 1,
               images: [],
             });
-    } else {
-      this.setState({
-        query: inputQuery,
-      });
-  }
+    } 
 }
-
+  
   // додаткове завантаження
   onNextFetch = () => {
     this.setState(({ page }) => ({ page: page + 1 }));
@@ -150,6 +146,8 @@ export class App extends Component {
       showModal,
       currentImageUrl,
       currentImageDescription,
+      totalImages,
+      imagesOnPage 
     } = this.state;
 
     const onNextFetch = this.onNextFetch;
@@ -162,9 +160,9 @@ export class App extends Component {
 
         {isLoading && <Loader />}
 
-        {images.length === 0 ? '' : (
+        {imagesOnPage >= 12 && imagesOnPage < totalImages && images.length !== 0  ? (
           <Button onNextFetch={onNextFetch} />
-        )}
+        ) : '' }
 
          {showModal && (
           <Modal
